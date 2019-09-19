@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">MovieCatalogue2</string>
+    <string name="title_movie">Movie</string>
+    <string name="title_tv">Tv Show</string>
+    <string name="title_home">home</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_preview">text preview</string>
+    <string name="detail">Detail -></string>
+    <string name="change_language_settings">Change Language Setting</string>
+    <string name="favorite">Favorite</string>
+    <string name="fragment_fav_movie">Favorite Movie</string>
+    <string name="fragment_fav_tv">Favorite Tv</string>
+    <string name="search_movie">Search Movie</string>
+    <string name="appwidget_text">MOVIE CATALOGUE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="empty_text">NO DATA</string>
+
+</resources>

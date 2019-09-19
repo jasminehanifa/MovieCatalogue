@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">katalog film</string>
+    <string name="title_movie">Film</string>
+    <string name="title_tv">Acara Tv</string>
+    <string name="title_home">beranda</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">hallo fragment kosong</string>
+    <string name="text_preview">Pratinjau teks</string>
+    <string name="detail">Rincian -></string>
+    <string name="change_language_settings">Ubah Pengaturan Bahasa</string>
+    <string name="favorite">Favorit</string>
+    <string name="fragment_fav_movie">Favorit Film</string>
+    <string name="fragment_fav_tv">Favorit Acara Tv</string>
+
+
+</resources>
