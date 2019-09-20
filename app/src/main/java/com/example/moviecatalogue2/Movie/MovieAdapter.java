@@ -35,7 +35,6 @@ import static com.example.moviecatalogue2.Database.DatabaseContract.MovieColumns
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHolder> {
     private Context context;
     private ArrayList<Movie> listMovie;
-    private AppWidgetManager mgr;
 
 
     public MovieAdapter(Context context) {
@@ -60,7 +59,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHo
     @Override
     public void onBindViewHolder(@NonNull MovieAdapter.MoviewViewHolder movieViewHolder, final int i) {
         final Movie movie = listMovie.get(i);
-        mgr =  AppWidgetManager.getInstance(context);
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w185"+movie.getMoviePoster())
                 .apply(new RequestOptions().override(350, 550))

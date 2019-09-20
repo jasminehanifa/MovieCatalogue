@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">FilmFavorite</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="Movie">Movie</string>
+    <string name="Tv">Tv Show</string>
+    <string name="text_preview">Text Preview</string>
+    <string name="favorite">Favorite</string>
+    <string name="detail">Detail</string>
+</resources>

@@ -50,7 +50,6 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         final long identityToken = Binder.clearCallingIdentity();
         cursor = mContext.getContentResolver().query(CONTENT_URI, null, null, null, null);
         Binder.restoreCallingIdentity(identityToken);
-
     }
 
     @Override

@@ -21,7 +21,6 @@ public class ImageBannerWidget extends AppWidgetProvider {
 
     public static final String TOAST_ACTION = "com.example.moviecatalogue2.TOAST_ACTION";
     public static final String EXTRA_ITEM = "com.example.moviecatalogue2.EXTRA_ITEM";
-    private static final String REFRESH_ACTION = "com.example.moviecatalogue2.action.REFRESH";
 
 
     static RemoteViews updateAppWidget(Context context, int appWidgetId) {

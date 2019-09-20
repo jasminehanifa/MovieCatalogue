@@ -5,11 +5,17 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <permission
-        android:name="com.example.moviecatalogue2.READ_DATABASE"
-        android:protectionLevel="normal" />
-    <permission
         android:name="com.example.moviecatalogue2.WRITE_DATABASE"
+        android:label="Write Database"
+        android:exported="true"
         android:protectionLevel="normal" />
+
+    <permission
+        android:name="com.example.moviecatalogue2.READ_DATABASE"
+        android:label="Read Database"
+        android:exported="true"
+        android:protectionLevel="normal" />
+
 
     <application
         android:allowBackup="true"
@@ -18,6 +24,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <receiver android:name=".widget.ImageBannerWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -44,6 +51,7 @@
             android:name=".Database.MovieProvider"
             android:authorities="com.example.moviecatalogue2"
             android:exported="true"
+            android:enabled="true"
             android:readPermission="com.example.moviecatalogue2.READ_DATABASE"
             android:writePermission="com.example.moviecatalogue2.WRITE_DATABASE" />
 
