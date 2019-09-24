@@ -3,6 +3,8 @@
     package="com.example.moviecatalogue2">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
 
     <permission
         android:name="com.example.moviecatalogue2.WRITE_DATABASE"
@@ -47,6 +49,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".Setting.Setting"
+            android:parentActivityName=".MainActivity">
+        </activity>
+
         <provider
             android:name=".Database.MovieProvider"
             android:authorities="com.example.moviecatalogue2"
@@ -60,6 +66,16 @@
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <receiver
+            android:name=".Reminder.MovieDailyReminder"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver android:name=".Reminder.MovieComingSoonReminder"
+            android:enabled="true"
+            android:exported="true"/>
+
     </application>
 
 </manifest>

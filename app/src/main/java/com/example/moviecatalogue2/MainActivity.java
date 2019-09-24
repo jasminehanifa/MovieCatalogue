@@ -2,7 +2,6 @@ package com.example.moviecatalogue2;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.moviecatalogue2.Movie.MovieFragment;
+import com.example.moviecatalogue2.Setting.Setting;
 import com.example.moviecatalogue2.Tv.TvFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -67,10 +67,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_change_settings){
-            Intent mIntent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
-            startActivity(mIntent);
-        }
+//        if (item.getItemId() == R.id.action_change_settings){
+//            Intent mIntent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
+//            startActivity(mIntent);
+//        }
+
+            if (item.getItemId() == R.id.action_change_settings){
+                Intent mIntent = new Intent(this, Setting.class);
+                startActivity(mIntent);
+            }
+
         return super.onOptionsItemSelected(item);
     }
 }

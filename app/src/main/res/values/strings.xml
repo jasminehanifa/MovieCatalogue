@@ -16,5 +16,19 @@
     <string name="appwidget_text">MOVIE CATALOGUE</string>
     <string name="add_widget">Add widget</string>
     <string name="empty_text">NO DATA</string>
+    <string name="key_lang">key_lang</string>
+    <string name="language">Language</string>
+    <string name="Language_sum">Choose Language</string>
+    <string name="PrefTitleNotifications">Notification Setting</string>
+    <string name="key_today_reminder">today_reminder_key</string>
+    <string name="summary_daily_reminder">Get Notification Every 7AM </string>
+    <string name="daily_reminder">Daily Reminder Notification</string>
+    <string name="new_release_reminder">New Release Notification</string>
+    <string name="key_new_release_reminder">new_release_notif</string>
+    <string name="summary_new_release_reminder">Get Notification Every 8AM</string>
+    <string name="notif_titel">Lets Check Movie Catalogue</string>
+    <string name="notif_body">Check Our New Movie</string>
+    <string name="today_release">Movie has released</string>
+    <string name="setting">Setting</string>
 
 </resources>

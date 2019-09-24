@@ -13,6 +13,33 @@
     <string name="favorite">Favorit</string>
     <string name="fragment_fav_movie">Favorit Film</string>
     <string name="fragment_fav_tv">Favorit Acara Tv</string>
+    <string name="search_movie">Cari Film</string>
+    <string name="appwidget_text">KATALOK FILM</string>
+    <string name="add_widget">tambah widget</string>
+    <string name="empty_text">TIDAK ADA DATA</string>
+    <string name="key_lang">key_lang</string>
+    <string name="language">Bahasa</string>
+    <string name="Language_sum">Pilih Bahasa</string>
+    <string name="PrefTitleNotifications">Pengaturan Notifikasi</string>
+    <string name="key_today_reminder">today_reminder_key</string>
+    <string name="summary_daily_reminder">Terima Notifikasi Setiap Jam 7 Pagi </string>
+    <string name="daily_reminder">Notifikasi Harian</string>
+    <string name="new_release_reminder">Notifikasi Film Baru Rilis</string>
+    <string name="key_new_release_reminder">new_release_notif</string>
+    <string name="summary_new_release_reminder">Terima Notifikasi Setiap Jam 8 Pagi</string>
+    <string name="notif_titel">Ayo Cek Katalog Film</string>
+    <string name="notif_body">Cek Film Terbaru Kami</string>
+    <string name="today_release">Film Telah Rilis</string>
+    <string name="setting">Pengaturanz</string>
+
+
+
+
+
+
+
+
+
 
 
 </resources>
