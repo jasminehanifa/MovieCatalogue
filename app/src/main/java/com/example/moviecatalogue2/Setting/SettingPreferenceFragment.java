@@ -9,6 +9,7 @@ import android.preference.SwitchPreference;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -34,11 +35,14 @@ import java.util.Locale;
 public class SettingPreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
     private RequestQueue queue;
-    private List<Movie> movieNotifList = new ArrayList<>();
+    private List<Movie> movieNotifList;
     private SwitchPreference dailySwitch;
     private SwitchPreference newReleaseSwitch;
     private MovieDailyReminder movieDailyReminder = new MovieDailyReminder();
     private MovieComingSoonReminder movieComingSoonReminder = new MovieComingSoonReminder();
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    private final Date date = new Date();
+    private final String today = dateFormat.format(date);
 
 
     @Override
@@ -46,6 +50,7 @@ public class SettingPreferenceFragment extends PreferenceFragment implements Pre
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.setting);
         queue = Volley.newRequestQueue(getActivity());
+        movieNotifList = new ArrayList<>();
 
         dailySwitch = (SwitchPreference) findPreference(getString(R.string.key_today_reminder));
         dailySwitch.setOnPreferenceChangeListener(this);
@@ -92,14 +97,13 @@ public class SettingPreferenceFragment extends PreferenceFragment implements Pre
     }
 
     private void setReleaseAlarm() {
+        String url = "https://api.themoviedb.org/3/discover/movie?api_key=e657f5965939c3f561350f052abbafec&primary_release_date.gte="+today+"&primary_release_date.lte="+today;
+        Log.d("testurl", url+"");
         SettingPreferenceFragment.GetMovieTask getDataAsync = new SettingPreferenceFragment.GetMovieTask();
-        getDataAsync.execute("https://api.themoviedb.org/3/movie/upcoming?api_key=f04bce2a28b277c0c4ee02124610fef5&language=en-US");
+        getDataAsync.execute(url);
     }
 
     public void getDataNotif(String url){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        final Date date = new Date();
-        final String today = dateFormat.format(date);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -110,15 +114,16 @@ public class SettingPreferenceFragment extends PreferenceFragment implements Pre
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject data = jsonArray.getJSONObject(i);
                         Movie movie = new Movie();
-                        movie.setMovieName(data.getString("title"));
+                        movie.setId(data.getInt("id"));
+                        movie.setMovieName(data.getString("original_title"));
                         movie.setMovieRelase(data.getString("release_date"));
-                        movie.setMovieName(data.getString("title"));
+                        movie.setMovieScore(data.getString("vote_average"));
                         movie.setMovieDescription(data.getString("overview"));
                         movie.setMoviePoster(data.getString("poster_path"));
 
-                        if (data.getString("release_date").equals("2019-09-20")) {
+                        if (data.getString("release_date").equals(today)) {
                             movieNotifList.add(movie);
-                            Log.d("datanya", movieNotifList.toString());
+                            Log.d("datanya", movie.toString());
                         }
                     }
                     movieComingSoonReminder.setAlarmComingSoon(getActivity(), movieNotifList);
@@ -129,6 +134,7 @@ public class SettingPreferenceFragment extends PreferenceFragment implements Pre
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity(), "Koneksi Bermasalah", Toast.LENGTH_LONG).show();
                 error.printStackTrace();
             }
         });

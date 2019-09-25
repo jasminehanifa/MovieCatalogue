@@ -140,6 +140,8 @@ public class MovieFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                                                     obj.getString("vote_average"),
                                                     obj.getString("release_date"),
                                                     obj.getString("poster_path")));
+                                            Log.d("movielist",obj.toString());
+
                                         } catch (JSONException e1) {
                                             e1.printStackTrace();
                                         }
