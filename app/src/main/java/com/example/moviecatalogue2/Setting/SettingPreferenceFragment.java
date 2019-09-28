@@ -40,9 +40,6 @@ public class SettingPreferenceFragment extends PreferenceFragment implements Pre
     private SwitchPreference newReleaseSwitch;
     private MovieDailyReminder movieDailyReminder = new MovieDailyReminder();
     private MovieComingSoonReminder movieComingSoonReminder = new MovieComingSoonReminder();
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-    private final Date date = new Date();
-    private final String today = dateFormat.format(date);
 
 
     @Override
@@ -97,6 +94,10 @@ public class SettingPreferenceFragment extends PreferenceFragment implements Pre
     }
 
     private void setReleaseAlarm() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date date = new Date();
+        String today = dateFormat.format(date);
+
         String url = "https://api.themoviedb.org/3/discover/movie?api_key=e657f5965939c3f561350f052abbafec&primary_release_date.gte="+today+"&primary_release_date.lte="+today;
         Log.d("testurl", url+"");
         SettingPreferenceFragment.GetMovieTask getDataAsync = new SettingPreferenceFragment.GetMovieTask();
@@ -108,6 +109,9 @@ public class SettingPreferenceFragment extends PreferenceFragment implements Pre
             @Override
             public void onResponse(JSONObject response) {
                 movieNotifList.clear();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Date date = new Date();
+                String today = dateFormat.format(date);
                 try {
                     JSONArray jsonArray = response.getJSONArray("results");
 
