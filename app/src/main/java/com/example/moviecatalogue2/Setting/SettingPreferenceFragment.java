@@ -44,6 +44,7 @@ public class SettingPreferenceFragment extends PreferenceFragment implements Pre
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.setting);
         queue = Volley.newRequestQueue(getActivity());
@@ -76,7 +77,10 @@ public class SettingPreferenceFragment extends PreferenceFragment implements Pre
             }
         }else {
             if (value) {
-                setReleaseAlarm();
+                Intent intent = new Intent(getActivity(), MovieComingSoonReminder.class);
+                getActivity().sendBroadcast(intent);
+
+//                movieComingSoonReminder.setAlarmComingSoon(getActivity(), movieNotifList);
             } else {
                 movieComingSoonReminder.cancelAlarm(getActivity());
             }
@@ -93,7 +97,7 @@ public class SettingPreferenceFragment extends PreferenceFragment implements Pre
         }
     }
 
-    private void setReleaseAlarm() {
+    public void setReleaseAlarm() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date date = new Date();
         String today = dateFormat.format(date);

@@ -72,7 +72,7 @@
             android:enabled="true"
             android:exported="true" />
 
-        <receiver android:name=".Reminder.MovieComingSoonReminder"
+        <receiver android:name="com.example.moviecatalogue2.Reminder.MovieComingSoonReminder"
             android:enabled="true"
             android:exported="true"/>
 
