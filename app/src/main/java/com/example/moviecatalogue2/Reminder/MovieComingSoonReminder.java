@@ -40,36 +40,33 @@ import java.util.List;
 import java.util.Locale;
 
 public class MovieComingSoonReminder extends BroadcastReceiver {
-    private static int notif = 2000;
     private RequestQueue queue;
+    int idReminder = 1;
+    private List<Movie> movieNotifList = new ArrayList<>();
+    Context context;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    final Date date = new Date();
+    final String today = dateFormat.format(date);
 
 
     @Override
     public void onReceive(final Context context, Intent intent) {
-        queue = Volley.newRequestQueue(context);
-         final List<Movie> movieNotifList;
-        movieNotifList = new ArrayList<>();
-
-        String movieTitle = intent.getStringExtra("movietitle");
-        final int id = intent.getIntExtra("id", 0);
-        final Movie mMovieResult = new Movie();
-        final String mDesc = context.getString(R.string.today_release) + " " +movieTitle;
+        this.context = context;
+//        String movieTitle = intent.getStringExtra("movietitle");
+//        final int id = intent.getIntExtra("id", 0);
+//        final Movie mMovieResult = new Movie();
+//        final String mDesc = context.getString(R.string.today_release) + " " +movieTitle;
+        getDataNotif(today);
         Log.d("dapetnotif", "onReceive: ");
 
+    }
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        Date date = new Date();
-        String today = dateFormat.format(date);
-        String url = "https://api.themoviedb.org/3/discover/movie?api_key=e657f5965939c3f561350f052abbafec&primary_release_date.gte="+today+"&primary_release_date.lte="+today;
-        Log.d("url", url+"");
-
+    public void getDataNotif(final String releaseToday){
+        String url = "https://api.themoviedb.org/3/discover/movie?api_key=e657f5965939c3f561350f052abbafec&primary_release_date.gte="+releaseToday+"&primary_release_date.lte="+releaseToday;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 movieNotifList.clear();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                Date date = new Date();
-                String today = dateFormat.format(date);
                 try {
                     JSONArray jsonArray = response.getJSONArray("results");
 
@@ -82,14 +79,19 @@ public class MovieComingSoonReminder extends BroadcastReceiver {
                         movie.setMovieScore(data.getString("vote_average"));
                         movie.setMovieDescription(data.getString("overview"));
                         movie.setMoviePoster(data.getString("poster_path"));
-                        Log.d("datanya", data.getString("original_title")+"");
-                        if (data.getString("release_date").equals(today)) {
-                            movieNotifList.add(movie);
 
+                        if (data.getString("release_date").equals(releaseToday)) {
+                            movieNotifList.add(movie);
+                            Log.d("datanya", movie.toString());
                         }
                     }
-                    setAlarmComingSoon(context, movieNotifList);
-                    sendComingSoonNotif(context, context.getString(R.string.app_name), mDesc, id, mMovieResult);
+
+                    for (Movie movie : movieNotifList){
+                        if(movie.getMovieRelase().equalsIgnoreCase(releaseToday)){
+                            sendComingSoonNotif(context, movie.getMovieName(), movie.getMovieRelase(), idReminder);
+                            idReminder++;
+                        }
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -102,18 +104,16 @@ public class MovieComingSoonReminder extends BroadcastReceiver {
                 error.printStackTrace();
             }
         });
+        queue = Volley.newRequestQueue(context);
         queue.add(request);
-
-        Log.d("listmovie", movieNotifList.toString());
-
     }
 
     private static PendingIntent getPendingIntent(Context context) {
         Intent intent = new Intent(context, MovieComingSoonReminder.class);
-        return PendingIntent.getBroadcast(context, 1011, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        return PendingIntent.getBroadcast(context, 100, intent, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
-    public void sendComingSoonNotif(Context context, String title, String desc, int id, Movie mMovieResult) {
+    public void sendComingSoonNotif(Context context, String title, String desc, int id) {
         String CHANNEL_ID = "10002";
         String CHANNEL_NAME = "AlarmManager_channel_2";
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(
@@ -142,31 +142,21 @@ public class MovieComingSoonReminder extends BroadcastReceiver {
         notificationManager.notify(id, builder.build());
     }
 
-    public void setAlarmComingSoon(Context context, List<Movie> movieList) {
-        for (Movie movie : movieList) {
-//            cancelAlarm(context);
+    public void setAlarmComingSoon(Context context) {
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(context, MovieComingSoonReminder.class);
-            intent.putExtra("movietitle", movie.getMovieName());
-            intent.putExtra("movieid", movie.getId());
-            intent.putExtra("movieposter", movie.getMoviePoster());
-            intent.putExtra("moviemDescription", movie.getMovieDescription());
-            intent.putExtra("moviedate", movie.getMovieRelase());
-            intent.putExtra("id", notif);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-                    100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 8);
             calendar.set(Calendar.MINUTE, 0);
             calendar.set(Calendar.SECOND, 0);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
+                    100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
             }
-            notif += 1;
-        }
+
         Toast.makeText(context, "ON", Toast.LENGTH_SHORT).show();
     }
 

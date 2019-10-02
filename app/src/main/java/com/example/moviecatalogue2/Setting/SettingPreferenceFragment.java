@@ -77,10 +77,7 @@ public class SettingPreferenceFragment extends PreferenceFragment implements Pre
             }
         }else {
             if (value) {
-                Intent intent = new Intent(getActivity(), MovieComingSoonReminder.class);
-                getActivity().sendBroadcast(intent);
-
-//                movieComingSoonReminder.setAlarmComingSoon(getActivity(), movieNotifList);
+                movieComingSoonReminder.setAlarmComingSoon(getActivity());
             } else {
                 movieComingSoonReminder.cancelAlarm(getActivity());
             }
@@ -89,63 +86,63 @@ public class SettingPreferenceFragment extends PreferenceFragment implements Pre
         return true;
     }
 
-    public class GetMovieTask extends AsyncTask<String, Void, Void> {
-        @Override
-        protected Void doInBackground(String... strings) {
-            getDataNotif(strings[0]);
-            return null;
-        }
-    }
-
-    public void setReleaseAlarm() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        Date date = new Date();
-        String today = dateFormat.format(date);
-
-        String url = "https://api.themoviedb.org/3/discover/movie?api_key=e657f5965939c3f561350f052abbafec&primary_release_date.gte="+today+"&primary_release_date.lte="+today;
-        Log.d("testurl", url+"");
-        SettingPreferenceFragment.GetMovieTask getDataAsync = new SettingPreferenceFragment.GetMovieTask();
-        getDataAsync.execute(url);
-    }
-
-    public void getDataNotif(String url){
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                movieNotifList.clear();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                Date date = new Date();
-                String today = dateFormat.format(date);
-                try {
-                    JSONArray jsonArray = response.getJSONArray("results");
-
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject data = jsonArray.getJSONObject(i);
-                        Movie movie = new Movie();
-                        movie.setId(data.getInt("id"));
-                        movie.setMovieName(data.getString("original_title"));
-                        movie.setMovieRelase(data.getString("release_date"));
-                        movie.setMovieScore(data.getString("vote_average"));
-                        movie.setMovieDescription(data.getString("overview"));
-                        movie.setMoviePoster(data.getString("poster_path"));
-
-                        if (data.getString("release_date").equals(today)) {
-                            movieNotifList.add(movie);
-                            Log.d("datanya", movie.toString());
-                        }
-                    }
-                    movieComingSoonReminder.setAlarmComingSoon(getActivity(), movieNotifList);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), "Koneksi Bermasalah", Toast.LENGTH_LONG).show();
-                error.printStackTrace();
-            }
-        });
-        queue.add(request);
-        }
+//    public class GetMovieTask extends AsyncTask<String, Void, Void> {
+//        @Override
+//        protected Void doInBackground(String... strings) {
+//            getDataNotif(strings[0]);
+//            return null;
+//        }
+//    }
+//
+//    public void setReleaseAlarm() {
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+//        Date date = new Date();
+//        String today = dateFormat.format(date);
+//
+//        String url = "https://api.themoviedb.org/3/discover/movie?api_key=e657f5965939c3f561350f052abbafec&primary_release_date.gte="+today+"&primary_release_date.lte="+today;
+//        Log.d("testurl", url+"");
+//        SettingPreferenceFragment.GetMovieTask getDataAsync = new SettingPreferenceFragment.GetMovieTask();
+//        getDataAsync.execute(url);
+//    }
+//
+//    public void getDataNotif(String url){
+//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//                movieNotifList.clear();
+//                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+//                Date date = new Date();
+//                String today = dateFormat.format(date);
+//                try {
+//                    JSONArray jsonArray = response.getJSONArray("results");
+//
+//                    for (int i = 0; i < jsonArray.length(); i++) {
+//                        JSONObject data = jsonArray.getJSONObject(i);
+//                        Movie movie = new Movie();
+//                        movie.setId(data.getInt("id"));
+//                        movie.setMovieName(data.getString("original_title"));
+//                        movie.setMovieRelase(data.getString("release_date"));
+//                        movie.setMovieScore(data.getString("vote_average"));
+//                        movie.setMovieDescription(data.getString("overview"));
+//                        movie.setMoviePoster(data.getString("poster_path"));
+//
+//                        if (data.getString("release_date").equals(today)) {
+//                            movieNotifList.add(movie);
+//                            Log.d("datanya", movie.toString());
+//                        }
+//                    }
+//                    movieComingSoonReminder.setAlarmComingSoon(getActivity(), movieNotifList);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Toast.makeText(getActivity(), "Koneksi Bermasalah", Toast.LENGTH_LONG).show();
+//                error.printStackTrace();
+//            }
+//        });
+//        queue.add(request);
+//        }
 }
